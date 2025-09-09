@@ -1,0 +1,64 @@
+.document-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: #2a2a2a;
+  color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #333;
+  border-bottom: 1px solid #444;
+
+  h3 {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .back-button {
+    background: none;
+    border: none;
+    color: #ff9800;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+
+    i {
+      margin-right: 5px;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .close-button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 5px;
+    line-height: 1;
+
+    &:hover {
+      color: #ff9800;
+    }
+  }
+}
+
+.panel-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}

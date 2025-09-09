@@ -1,0 +1,134 @@
+.contact-layout {
+  width: 100%;
+  max-width: 1100px;
+  margin: 60px auto;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+  color: #1f2a2e;
+  position: relative;
+  z-index: 2; /* đảm bảo nằm trên nền video/background */
+}
+
+.contact-left {
+  background: rgba(90, 167, 160, 0.95);
+  padding: 24px;
+  border-radius: 4px;
+  color: #e6fffb;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.contact-group {
+  margin-bottom: 24px;
+}
+
+.contact-group h3 {
+  letter-spacing: 1px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.contact-lines > div {
+  margin-bottom: 16px;
+}
+
+.contact-lines a {
+  color: #e6fffb;
+  text-decoration: underline;
+}
+
+.contact-right {
+  background: rgba(238, 243, 244, 0.95);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+.contact-right__header {
+  background: #e3b04b;
+  color: #fff;
+  padding: 14px 20px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.contact-form {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
+}
+
+.contact-form label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.contact-form label span {
+  width: 140px;
+  color: #65727a;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.contact-form input,
+.contact-form textarea {
+  flex: 1;
+  border: none;
+  border-bottom: 2px solid #c9d3d6;
+  background: #ffffff;
+  padding: 7px;
+  outline: none;
+  color: #1f2a2e;
+}
+
+.contact-form textarea {
+  background: #d9dede;
+  border-radius: 2px;
+  border: none;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-bottom-color: #e3b04b;
+  box-shadow: 0 2px 0 0 #e3b04b;
+}
+
+.contact-form .full {
+  grid-column: 1 / -1;
+  align-items: flex-start;
+}
+
+.form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.send-button {
+  background: #e3b04b;
+  color: #fff;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 3px;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #1f2a2e;
+  border: 1px solid #a7b3b7;
+  padding: 10px 16px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .contact-layout {
+    grid-template-columns: 1fr;
+    margin: 20px;
+  }
+}
