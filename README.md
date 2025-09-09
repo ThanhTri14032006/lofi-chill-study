@@ -4,8 +4,8 @@ This project is a clone of Lofi.co and adding some function lick todolist, count
 
 # Image
  
-![image]()
-![image]()
+![image](https://user-images.githubusercontent.com/47014132/149120770-381c8ea9-9d57-40b7-bd10-3d39d4dce42a.png)
+![image](https://user-images.githubusercontent.com/47014132/149120793-0c75511e-88f4-4e69-b836-dabd1eeac884.png)
 
 
 # Demo
@@ -20,7 +20,8 @@ Download and install Node.js from this link https://nodejs.org/en/download/
 
 ### 2. Clone or download this repo.
 
-On your terminal or cmd, type: ``
+On your terminal or cmd, type: `git clone https://github.com/ThanhTri14032006/lofi-chill-study.git`
+
 
 . On your command line, navigate to root folder and install: `npm install`
 
