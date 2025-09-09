@@ -10,14 +10,7 @@ This project is a clone of Lofi.co and adding some function lick todolist, count
 Download and install Node.js from this link https://nodejs.org/en/download/
 
 ### 2. Clone or download this repo.
-
-<<<<<<< HEAD
-On your terminal or cmd, type: `git remote add origin https://github.com/ThanhTri14032006/lofi-chill-study.git`
-=======
 On your terminal or cmd, type: `git clone https://github.com/ThanhTri14032006/lofi-chill-study.git`
-
->>>>>>> 3c33a86
-
 . On your command line, navigate to root folder and install: `npm install`
 
 ### 3. Deploy the application
