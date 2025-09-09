@@ -2,7 +2,7 @@
 
 This project is a clone of Lofi.co and adding some function lick todolist, counting as well as remove some part
 
-# Image
+#Demo(https://lofi-chill-study.vercel.app)
 ## How to build and run
 
 ### 1. Install NodeJs and npm
