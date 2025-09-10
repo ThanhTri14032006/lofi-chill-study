@@ -1,10 +1,10 @@
 .contact-layout {
   width: 100%;
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 60px auto;
   display: grid;
   grid-template-columns: 320px 1fr;
-  gap: 24px;
+  gap: 20px;
   color: #1f2a2e;
   position: relative;
   z-index: 2; /* đảm bảo nằm trên nền video/background */

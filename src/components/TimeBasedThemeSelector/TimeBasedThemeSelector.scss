@@ -1,0 +1,83 @@
+.theme-schedule-container {
+  background-color: rgba(20, 20, 29, 0.8);
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 10px;
+  color: white;
+  
+  h4 {
+    color: #f3a952;
+    font-size: 16px;
+    margin: 0 0 10px 0;
+    font-weight: normal;
+    border-bottom: 1px solid rgba(243, 169, 82, 0.3);
+    padding-bottom: 5px;
+  }
+  
+  .auto-theme-toggle {
+    margin-bottom: 15px;
+    
+    .MuiFormControlLabel-label {
+      color: white;
+      font-size: 14px;
+    }
+    
+    .theme-note {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 12px;
+      margin-top: 5px;
+      margin-bottom: 0;
+      font-style: italic;
+    }
+    
+    .MuiSwitch-root {
+      .MuiSwitch-track {
+        background-color: rgba(255, 255, 255, 0.3);
+      }
+      
+      .Mui-checked + .MuiSwitch-track {
+        background-color: rgba(243, 169, 82, 0.5) !important;
+      }
+      
+      .MuiSwitch-thumb {
+        background-color: white;
+      }
+      
+      .Mui-checked .MuiSwitch-thumb {
+        background-color: #f3a952;
+      }
+    }
+  }
+  
+  .time-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    
+    .time-input-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      
+      label {
+        color: white;
+        font-size: 14px;
+        margin-right: 10px;
+      }
+      
+      .time-input {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        color: white;
+        padding: 5px 10px;
+        font-size: 14px;
+        
+        &:focus {
+          outline: none;
+          border-color: #f3a952;
+        }
+      }
+    }
+  }
+}

@@ -6,6 +6,7 @@ import rainReducer from './rainReducer';
 import moodReducer from './moodReducer';
 import volumeReducer from './volumeReducer';
 import musicPlayingReducer from './musicPlayingReducer';
+import themeScheduleReducer from './themeScheduleReducer';
 import { listReducer } from './listReducer';
 
 export const rootReducer = combineReducers({
@@ -15,6 +16,7 @@ export const rootReducer = combineReducers({
   moodState: moodReducer,
   volumeState: volumeReducer,
   musicPlayingState: musicPlayingReducer,
+  themeScheduleState: themeScheduleReducer,
   todoItems: listReducer,
 });
 

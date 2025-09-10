@@ -5,7 +5,7 @@ import Login from './components/Login/Login';
 import Home from './components/Home/Home';
 import Header from './components/Header/Header';
 import About from './components/About/About';
-import { getUserAuth } from './redux/actions';
+import { getUserAuth, applyScheduledTheme } from './redux/actions';
 import { MusicProvider } from './contexts/MusicContext';
 
 function App() {
@@ -13,6 +13,16 @@ function App() {
 
   useEffect(() => {
     dispatch(getUserAuth());
+    
+    // Khởi tạo thời gian thay đổi giao diện khi ứng dụng khởi động
+    dispatch(applyScheduledTheme());
+    
+    // Thiết lập interval để kiểm tra và áp dụng thay đổi giao diện mỗi phút
+    const themeInterval = setInterval(() => {
+      dispatch(applyScheduledTheme());
+    }, 60000); // 60 giây
+    
+    return () => clearInterval(themeInterval);
   }, [dispatch]);
 
   return (

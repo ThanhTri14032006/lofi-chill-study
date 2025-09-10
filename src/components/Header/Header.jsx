@@ -5,9 +5,11 @@ import { signOutAPI, changeDayNight } from '../../redux/actions';
 import './Header.scss';
 import { Link } from 'react-router-dom';
 import DarkLightSwitch from '../DarkLightSwitch/DarkLightSwitch';
+import TimeBasedThemeSelector from '../TimeBasedThemeSelector/TimeBasedThemeSelector';
 
 const Header = () => {
   const [fullscreen, setFullscreen] = useState(false);
+  const [showThemeSettings, setShowThemeSettings] = useState(false);
   const data = useSelector((state) => state.userState);
   const daynight = useSelector((state) => state.modeState);
   const dispatch = useDispatch();
@@ -62,8 +64,24 @@ const Header = () => {
         </a>
       </div>
       <div className='nav-menu'>
-        <div onClick={daynightHandler}>
-          <DarkLightSwitch theme={mode} />
+        <div className='theme-controls'>
+          <div onClick={daynightHandler}>
+            <DarkLightSwitch theme={mode} />
+          </div>
+          
+          <button 
+            onClick={() => setShowThemeSettings(!showThemeSettings)} 
+            className='theme-settings-btn'
+            title='Cài đặt thời gian thay đổi giao diện'
+          >
+            <i className='fas fa-clock'></i>
+          </button>
+          
+          {showThemeSettings && (
+            <div className='theme-settings-dropdown'>
+              <TimeBasedThemeSelector />
+            </div>
+          )}
         </div>
 
         <button onClick={fullscreenHandler} className='fullscreen-btn'>

@@ -6,6 +6,8 @@ import {
   SET_MOOD,
   SET_VOLUME,
   SET_MUSIC_PLAYING,
+  SET_AUTO_THEME,
+  SET_THEME_SCHEDULE,
   LIST_ADD,
   LIST_REMOVE,
   LIST_ADD_DONE,
@@ -17,9 +19,10 @@ export const setUser = (payload) => ({
   user: payload,
 });
 
-export const setMode = (payload) => ({
+export const setMode = (payload, manuallyChanged = false) => ({
   type: SET_MODE,
   mode: payload,
+  manuallyChanged: manuallyChanged,
 });
 
 export const setRain = (payload, value) => ({
@@ -76,7 +79,72 @@ export function changeDayNight(currentStatus) {
   if (currentStatus === 'day') status = 'night';
   else if (currentStatus === 'night') status = 'day';
   return (dispatch) => {
-    dispatch(setMode(status));
+    dispatch({
+      type: SET_MODE,
+      mode: status,
+      manuallyChanged: true
+    });
+  };
+}
+
+export function setAutoTheme(isEnabled) {
+  return {
+    type: SET_AUTO_THEME,
+    autoTheme: isEnabled,
+  };
+}
+
+export function setThemeSchedule(dayStartTime, nightStartTime) {
+  return {
+    type: SET_THEME_SCHEDULE,
+    dayStartTime,
+    nightStartTime,
+  };
+}
+
+export function toggleAutoTheme(isEnabled) {
+  return (dispatch) => {
+    dispatch(setAutoTheme(isEnabled));
+  };
+}
+
+export function updateThemeSchedule(dayStartTime, nightStartTime) {
+  return (dispatch) => {
+    dispatch(setThemeSchedule(dayStartTime, nightStartTime));
+  };
+}
+
+export function applyScheduledTheme() {
+  return (dispatch, getState) => {
+    const { themeScheduleState, modeState } = getState();
+    const { autoTheme, dayStartTime, nightStartTime } = themeScheduleState;
+    
+    if (!autoTheme) return;
+    
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    
+    const dayHour = parseInt(dayStartTime.split(':')[0]);
+    const dayMinute = parseInt(dayStartTime.split(':')[1]);
+    const nightHour = parseInt(nightStartTime.split(':')[0]);
+    const nightMinute = parseInt(nightStartTime.split(':')[1]);
+    
+    const isDayTime = (
+      currentHour > dayHour || 
+      (currentHour === dayHour && currentMinute >= dayMinute)
+    ) && (
+      currentHour < nightHour || 
+      (currentHour === nightHour && currentMinute < nightMinute)
+    );
+    
+    const targetMode = isDayTime ? 'day' : 'night';
+    
+    // Chỉ thay đổi giao diện theo lịch trình nếu chưa có tương tác thủ công gần đây
+    // Lưu ý: Không ghi đè thay đổi thủ công của người dùng
+    if (modeState.mode !== targetMode && !modeState.manuallyChanged) {
+      dispatch(setMode(targetMode, false));
+    }
   };
 }
 

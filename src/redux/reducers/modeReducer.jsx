@@ -2,6 +2,7 @@ import { SET_MODE } from '../constantsType/actionType';
 
 const INITIAL_STATE = {
   mode: 'day',
+  manuallyChanged: false,
 };
 
 const modeReducer = (state = INITIAL_STATE, action) => {
@@ -10,6 +11,7 @@ const modeReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         mode: action.mode,
+        manuallyChanged: action.manuallyChanged !== undefined ? action.manuallyChanged : true,
       };
     default:
       return state;

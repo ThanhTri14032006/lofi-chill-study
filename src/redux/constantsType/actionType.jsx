@@ -4,6 +4,8 @@ export const SET_RAIN = 'SET_RAIN';
 export const SET_MOOD = 'SET_MOOD';
 export const SET_VOLUME = 'SET_VOLUME';
 export const SET_MUSIC_PLAYING = 'SET_MUSIC_PLAYING';
+export const SET_AUTO_THEME = 'SET_AUTO_THEME';
+export const SET_THEME_SCHEDULE = 'SET_THEME_SCHEDULE';
 
 export const LIST_ADD = 'LIST_ADD';
 export const LIST_REMOVE = 'LIST_REMOVE';
