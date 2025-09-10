@@ -262,8 +262,11 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
     } else if (currentTrackIndex !== null && currentPlaylist[currentTrackIndex]) {
       // Nếu chưa có audio hiện tại, tạo mới
       startPlaylistAudioAtIndex(currentTrackIndex);
+    } else if (currentPlaylist && currentPlaylist.length > 0) {
+      // Nếu không có bài hát nào được chọn nhưng có danh sách phát, phát bài đầu tiên
+      startPlaylistAudioAtIndex(0);
     } else {
-      console.error("Không có bài hát nào được chọn");
+      console.error("Không có bài hát nào được chọn hoặc danh sách phát trống");
     }
   };
 
@@ -460,17 +463,7 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
               ) : (
                 <button 
                   className="control-button play-button" 
-                  onClick={() => {
-                    if (currentAudioRef.current && currentAudioRef.current.paused && currentTrackIndex != null) {
-                      currentAudioRef.current.volume = volumeValue / 100;
-                      currentAudioRef.current.play();
-                      setIsPlaylistPlaying(true);
-                    } else if (currentTrackIndex != null) {
-                      startPlaylistAudioAtIndex(currentTrackIndex);
-                    } else {
-                      startPlaylistAudioAtIndex(0);
-                    }
-                  }}
+                  onClick={handlePlayPause}
                   title="Phát"
                 >
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
