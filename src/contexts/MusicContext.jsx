@@ -121,13 +121,30 @@ export const MusicProvider = ({ children }) => {
     stopPlaylistMode,
   };
 
+  // Cập nhật đường dẫn âm thanh khi thay đổi bài hát
+  useEffect(() => {
+    if (audioRef.current && currentPlaylist[currentTrackIndex]) {
+      const fullPath = process.env.PUBLIC_URL + currentPlaylist[currentTrackIndex]?.src;
+      console.log("MusicContext: Cập nhật đường dẫn âm thanh:", fullPath);
+      audioRef.current.src = fullPath;
+      
+      if (isPlaying && !isPlaylistMode) {
+        audioRef.current.load();
+        audioRef.current.play().catch(error => {
+          console.error("MusicContext: Lỗi khi phát nhạc:", error);
+        });
+      }
+    }
+  }, [currentTrackIndex, currentPlaylist, isPlaying, isPlaylistMode]);
+
   return (
     <MusicContext.Provider value={value}>
       {children}
       <audio 
         ref={audioRef} 
-        src={currentPlaylist[currentTrackIndex]?.src} 
+        preload="auto"
         loop={false}
+        onError={(e) => console.error("MusicContext: Lỗi audio:", e)}
       />
     </MusicContext.Provider>
   );

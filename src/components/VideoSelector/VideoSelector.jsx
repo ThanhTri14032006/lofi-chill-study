@@ -11,15 +11,13 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
   const volumeData = useSelector((state) => state.volumeState);
   const { volumeValue } = volumeData;
   const { 
+    audioRef, 
     currentTrackIndex, 
     setCurrentTrackIndex, 
-    isPlaying, 
-    setIsPlaying, 
     currentPlaylist, 
     nextTrack, 
     prevTrack, 
-    playPause,
-    startPlaylistMode,
+    startPlaylistMode, 
     stopPlaylistMode 
   } = useMusic();
   
@@ -184,30 +182,112 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
     setCurrentTrackIndex(index);
     setIsPlaylistPlaying(true);
     startPlaylistMode();
+    
+    // Tạo một audio element mới để phát nhạc
+    try {
+      // Dừng audio hiện tại nếu có
+      if (audioRef && audioRef.current) {
+        audioRef.current.pause();
+      }
+      
+      // Tạo audio mới
+      const audio = new Audio();
+      const fullPath = process.env.PUBLIC_URL + currentPlaylist[index]?.src;
+      console.log("Đang cố gắng phát nhạc từ:", fullPath);
+      
+      audio.src = fullPath;
+      audio.volume = volumeValue / 100;
+      
+      // Xử lý sự kiện
+      audio.oncanplaythrough = () => {
+        console.log("Âm thanh đã sẵn sàng để phát");
+        audio.play()
+          .then(() => {
+            console.log("Đang phát nhạc");
+            // Lưu audio vào ref để có thể điều khiển sau này
+            if (currentAudioRef.current) {
+              currentAudioRef.current.pause();
+            }
+            currentAudioRef.current = audio;
+          })
+          .catch(error => console.error("Lỗi khi phát nhạc:", error));
+      };
+      
+      audio.onerror = (e) => {
+        console.error("Lỗi khi tải file âm thanh:", e);
+      };
+      
+      audio.onended = () => {
+        console.log("Bài hát đã kết thúc");
+        // Tự động phát bài tiếp theo
+        if (isPlaylistPlaying) {
+          playNextInPlaylist();
+        }
+      };
+      
+      // Bắt đầu tải file âm thanh
+      audio.load();
+    } catch (error) {
+      console.error("Lỗi khi tạo audio:", error);
+    }
   };
 
   const togglePlaylistTrack = (index) => {
     if (currentTrackIndex === index && isPlaylistPlaying) {
-      playPause();
+      handlePlayPause();
     } else {
       startPlaylistAudioAtIndex(index);
+      // Đảm bảo nhạc được phát
+      setIsPlaylistPlaying(true);
+      startPlaylistMode();
+    }
+  };
+  
+  // Cập nhật hàm playPause để xử lý âm thanh
+  const handlePlayPause = () => {
+    const newPlayingState = !isPlaylistPlaying;
+    setIsPlaylistPlaying(newPlayingState);
+    
+    // Đảm bảo rằng khi nhấn play/pause, âm thanh sẽ được phát hoặc tạm dừng
+    if (currentAudioRef.current) {
+      console.log("currentAudioRef tồn tại, trạng thái phát:", newPlayingState);
+      if (newPlayingState) { // Nếu đang tạm dừng và sẽ chuyển sang phát
+        currentAudioRef.current.play()
+          .then(() => console.log("Đã bắt đầu phát lại"))
+          .catch(error => console.error("Lỗi khi phát lại nhạc:", error));
+      } else { // Nếu đang phát và sẽ chuyển sang tạm dừng
+        console.log("Đang tạm dừng nhạc");
+        currentAudioRef.current.pause();
+      }
+    } else if (currentTrackIndex !== null && currentPlaylist[currentTrackIndex]) {
+      // Nếu chưa có audio hiện tại, tạo mới
+      startPlaylistAudioAtIndex(currentTrackIndex);
+    } else {
+      console.error("Không có bài hát nào được chọn");
     }
   };
 
   const playNextInPlaylist = () => {
-    nextTrack();
+    const nextIndex = (currentTrackIndex + 1) % currentPlaylist.length;
+    setCurrentTrackIndex(nextIndex);
     setIsPlaylistPlaying(true);
+    startPlaylistAudioAtIndex(nextIndex);
     startPlaylistMode();
   };
 
   const playPrevInPlaylist = () => {
-    prevTrack();
+    const prevIndex = (currentTrackIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
+    setCurrentTrackIndex(prevIndex);
     setIsPlaylistPlaying(true);
-    startPlaylistMode();
+    startPlaylistAudioAtIndex(prevIndex);
   };
 
   const stopPlaylist = () => {
     setIsPlaylistPlaying(false);
+    if (currentAudioRef.current) {
+      currentAudioRef.current.pause();
+      currentAudioRef.current = null;
+    }
     stopPlaylistMode();
   };
 
@@ -369,10 +449,7 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
               {isPlaylistPlaying ? (
                 <button 
                   className="control-button pause-button" 
-                  onClick={() => {
-                    if (currentAudioRef.current) currentAudioRef.current.pause();
-                    setIsPlaylistPlaying(false);
-                  }}
+                  onClick={handlePlayPause}
                   title="Tạm dừng"
                 >
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
