@@ -4,7 +4,8 @@ This project is a clone of Lofi.co and adding some function lick todolist, count
 ## Image:
 ![Image](https://raw.githubusercontent.com/ThanhTri14032006/lofi-chill-study/main/public/assets/icons/lofi-logo.gif)
 ![Image](https://raw.githubusercontent.com/ThanhTri14032006/lofi-chill-study/main/public/assets/icons/avata.png)
-# Demo (https://lofi-chill-study.vercel.app)
+# Demo
+https://lofi-chill-study.vercel.app
 ## How to build and run
 
 ### 1. Install NodeJs and npm
