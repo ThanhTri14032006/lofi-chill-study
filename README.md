@@ -20,7 +20,7 @@ On your terminal or cmd, type: `git clone https://github.com/ThanhTri14032006/lo
 
 . Deploy the app on web-browsers: `npm run start`
 
-### Technology use in the application
+### 4. Technology use in the application
 
 . React
 . Redux
