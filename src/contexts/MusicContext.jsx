@@ -151,6 +151,45 @@ export const MusicProvider = ({ children }) => {
       }
     }
   }, [currentTrackIndex, currentPlaylist, isPlaying, isPlaylistMode]);
+  
+  // Tự động phát nhạc khi component được mount
+  useEffect(() => {
+    let isMounted = true;
+    
+    // Đợi một khoảng thời gian để đảm bảo component đã mount hoàn toàn
+    const timer = setTimeout(() => {
+      if (isMounted && audioRef.current && isDefaultMusicPlaying && !isPlaylistMode) {
+        console.log("Đang cố gắng tự động phát nhạc khi khởi tạo...");
+        
+        // Đảm bảo đường dẫn âm thanh đã được thiết lập
+        if (!audioRef.current.src && currentPlaylist[currentTrackIndex]) {
+          const fullPath = process.env.PUBLIC_URL + currentPlaylist[currentTrackIndex]?.src;
+          audioRef.current.src = fullPath;
+        }
+        
+        // Phát nhạc với xử lý lỗi
+        const playPromise = audioRef.current.play();
+        
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              console.log("Tự động phát nhạc thành công!");
+            })
+            .catch(error => {
+              // Lỗi AbortError thường xảy ra khi có nhiều yêu cầu phát cùng lúc
+              // Không cần xử lý đặc biệt vì các useEffect khác sẽ xử lý việc phát nhạc
+              console.log("Thông báo: Không thể tự động phát nhạc, người dùng cần nhấn nút play.", error);
+            });
+        }
+      }
+    }, 2000);
+    
+    return () => {
+      isMounted = false;
+      clearTimeout(timer);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);  // Empty dependency array để chỉ chạy một lần khi mount
 
   return (
     <MusicContext.Provider value={value}>

@@ -548,7 +548,7 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
               ))}
             </div>
           </div>
-        </div>      
+        </div>
       )}
       
       {isSettingsOpen && (

@@ -18,6 +18,12 @@ export const chill = [
     mood: 'chill',
     src: '/assets/lofi/chill3.mp3',
   },
+  {
+    id: 3,
+    name: 'Relaxing',
+    mood: 'chill',
+    src: '/assets/lofi/sleepy1.mp3',
+  },
 ];
 
 export const jazzy = [
