@@ -84,6 +84,11 @@ export const MusicProvider = ({ children }) => {
   }, [isDefaultMusicPlaying, isPlaylistMode, currentPlaylist.length]);
 
   const playPause = () => {
+    // Kiểm tra nếu đang ở chế độ playlist, không thay đổi trạng thái
+    if (isPlaylistMode) {
+      console.log("Đang ở chế độ playlist, không thay đổi trạng thái phát nhạc mặc định");
+      return;
+    }
     setIsPlaying(!isPlaying);
   };
 
@@ -103,6 +108,16 @@ export const MusicProvider = ({ children }) => {
   const stopPlaylistMode = () => {
     setIsPlaylistMode(false);
     dispatch({ type: 'SET_MUSIC_PLAYING', isPlaying: true });
+    
+    // Đảm bảo âm thanh mặc định được phát lại sau khi thoát chế độ playlist
+    setTimeout(() => {
+      if (audioRef.current && !isPlaylistMode) {
+        audioRef.current.load();
+        audioRef.current.play().catch(error => {
+          console.error("Lỗi khi phát lại nhạc mặc định:", error);
+        });
+      }
+    }, 300); // Đợi một chút để đảm bảo các state đã được cập nhật
   };
 
   const value = {

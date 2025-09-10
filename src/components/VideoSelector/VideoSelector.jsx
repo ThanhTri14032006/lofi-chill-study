@@ -181,6 +181,9 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
   const startPlaylistAudioAtIndex = (index) => {
     setCurrentTrackIndex(index);
     setIsPlaylistPlaying(true);
+    
+    // Đảm bảo nhạc mặc định bị tắt khi phát playlist
+    dispatch({ type: 'SET_MUSIC_PLAYING', isPlaying: false });
     startPlaylistMode();
     
     // Tạo một audio element mới để phát nhạc
@@ -248,6 +251,13 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
     const newPlayingState = !isPlaylistPlaying;
     setIsPlaylistPlaying(newPlayingState);
     
+    // Đảm bảo nhạc mặc định bị tắt khi phát playlist
+    if (newPlayingState) {
+      // Khi bắt đầu phát playlist, tắt nhạc mặc định
+      dispatch({ type: 'SET_MUSIC_PLAYING', isPlaying: false });
+      startPlaylistMode();
+    }
+    
     // Đảm bảo rằng khi nhấn play/pause, âm thanh sẽ được phát hoặc tạm dừng
     if (currentAudioRef.current) {
       console.log("currentAudioRef tồn tại, trạng thái phát:", newPlayingState);
@@ -258,6 +268,9 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
       } else { // Nếu đang phát và sẽ chuyển sang tạm dừng
         console.log("Đang tạm dừng nhạc");
         currentAudioRef.current.pause();
+        
+        // Khi tạm dừng playlist, không tự động bật lại nhạc mặc định
+        // Người dùng sẽ cần nhấn nút play ở player chính để phát lại nhạc mặc định
       }
     } else if (currentTrackIndex !== null && currentPlaylist[currentTrackIndex]) {
       // Nếu chưa có audio hiện tại, tạo mới
@@ -291,7 +304,19 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
       currentAudioRef.current.pause();
       currentAudioRef.current = null;
     }
+    // Đảm bảo âm thanh mặc định được phát lại
     stopPlaylistMode();
+    
+    // Đợi một chút để đảm bảo MusicContext đã cập nhật trạng thái
+    setTimeout(() => {
+      if (audioRef && audioRef.current) {
+        console.log("VideoSelector: Phát lại nhạc mặc định sau khi dừng playlist");
+        audioRef.current.load();
+        audioRef.current.play().catch(error => {
+          console.error("VideoSelector: Lỗi khi phát lại nhạc mặc định:", error);
+        });
+      }
+    }, 500);
   };
 
   // Sync volume slider with the currently playing library audio
