@@ -1,5 +1,6 @@
 export const chill = [
   {
+    // note thêm nhạc chill
     id: 0,
     name: 'Chilly',
     mood: 'chill',

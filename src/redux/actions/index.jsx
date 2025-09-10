@@ -1,4 +1,4 @@
-import { auth, provider } from '../../firebase';
+import { auth, googleProvider, githubProvider } from '../../firebase';
 import {
   SET_USER,
   SET_MODE,
@@ -38,10 +38,11 @@ export const setVolume = (payload) => ({
   volumeValue: payload,
 });
 
-export function signInAPI() {
+export function signInAPI(providerType = 'google') {
   return (dispatch) => {
+    const authProvider = providerType === 'github' ? githubProvider : googleProvider;
     auth
-      .signInWithPopup(provider)
+      .signInWithPopup(authProvider)
       .then((payload) => {
         dispatch(setUser(payload.user));
       })

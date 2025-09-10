@@ -88,6 +88,8 @@
       margin-top: 100px;
       width: 600px;
       display: flex;
+      flex-direction: column;
+      gap: 20px;
       @media (max-width: 768px) {
         margin-top: 20px;
         display: inline-block;
@@ -98,6 +100,7 @@
         display: flex;
         justify-content: center;
         background-color: #fff;
+        cursor: pointer;
         align-items: center;
         height: 56px;
         width: 100%;
@@ -112,6 +115,20 @@
         &:hover {
           background-color: rgb(112, 111, 111);
           color: white;
+        }
+        
+        &.github-icon {
+          background-color: #24292e;
+          color: white;
+          
+          i {
+            font-size: 24px;
+            margin-right: 8px;
+          }
+          
+          &:hover {
+            background-color: #2f363d;
+          }
         }
       }
     }

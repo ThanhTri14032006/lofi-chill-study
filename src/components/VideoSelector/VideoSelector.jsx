@@ -339,41 +339,116 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
             <button className="close-button" onClick={() => closeAllSections()}>×</button>
           </div>
           <div className="panel-content">
-            <div className="playlist-controls">
-              <button className="prev-button" onClick={playPrevInPlaylist}>⏮</button>
-              {isPlaylistPlaying ? (
-                <button className="pause-button" onClick={() => {
-                  if (currentAudioRef.current) currentAudioRef.current.pause();
-                  setIsPlaylistPlaying(false);
-                }}>⏸ Tạm dừng</button>
-              ) : (
-                <button className="play-button" onClick={() => {
-                  if (currentAudioRef.current && currentAudioRef.current.paused && currentTrackIndex != null) {
-                    currentAudioRef.current.volume = volumeValue / 100;
-                    currentAudioRef.current.play();
-                    setIsPlaylistPlaying(true);
-                  } else if (currentTrackIndex != null) {
-                    startPlaylistAudioAtIndex(currentTrackIndex);
-                  } else {
-                    startPlaylistAudioAtIndex(0);
-                  }
-                }}>▶️ Phát</button>
-              )}
-              <button className="next-button" onClick={playNextInPlaylist}>⏭</button>
-              <button className="stop-button" onClick={stopPlaylist}>⏹ Dừng</button>
+            <div className="playlist-info">
+              <div className="playlist-status">
+                {isPlaylistPlaying ? (
+                  <div className="now-playing">
+                    <div className="playing-animation">
+                      <span></span><span></span><span></span><span></span>
+                    </div>
+                    <span>Đang phát: {currentTrackIndex !== null && currentPlaylist[currentTrackIndex]?.name}</span>
+                  </div>
+                ) : (
+                  <div className="not-playing">Chọn bài hát để phát</div>
+                )}
+              </div>
             </div>
+            
+            <div className="playlist-controls">
+              <button 
+                className="control-button prev-button" 
+                onClick={playPrevInPlaylist}
+                title="Bài trước"
+              >
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M19 20L9 12L19 4V20Z" fill="currentColor"/>
+                  <rect x="5" y="4" width="2" height="16" fill="currentColor"/>
+                </svg>
+              </button>
+              
+              {isPlaylistPlaying ? (
+                <button 
+                  className="control-button pause-button" 
+                  onClick={() => {
+                    if (currentAudioRef.current) currentAudioRef.current.pause();
+                    setIsPlaylistPlaying(false);
+                  }}
+                  title="Tạm dừng"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="6" y="4" width="4" height="16" fill="currentColor"/>
+                    <rect x="14" y="4" width="4" height="16" fill="currentColor"/>
+                  </svg>
+                </button>
+              ) : (
+                <button 
+                  className="control-button play-button" 
+                  onClick={() => {
+                    if (currentAudioRef.current && currentAudioRef.current.paused && currentTrackIndex != null) {
+                      currentAudioRef.current.volume = volumeValue / 100;
+                      currentAudioRef.current.play();
+                      setIsPlaylistPlaying(true);
+                    } else if (currentTrackIndex != null) {
+                      startPlaylistAudioAtIndex(currentTrackIndex);
+                    } else {
+                      startPlaylistAudioAtIndex(0);
+                    }
+                  }}
+                  title="Phát"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 4L20 12L6 20V4Z" fill="currentColor"/>
+                  </svg>
+                </button>
+              )}
+              
+              <button 
+                className="control-button next-button" 
+                onClick={playNextInPlaylist}
+                title="Bài tiếp theo"
+              >
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 4L15 12L5 20V4Z" fill="currentColor"/>
+                  <rect x="17" y="4" width="2" height="16" fill="currentColor"/>
+                </svg>
+              </button>
+              
+              <button 
+                className="control-button stop-button" 
+                onClick={stopPlaylist}
+                title="Dừng"
+              >
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="5" y="5" width="14" height="14" fill="currentColor"/>
+                </svg>
+              </button>
+            </div>
+            
             <div className="playlist-list">
               {currentPlaylist.map((track, index) => (
                 <div 
                   key={track.id}
-                  className={`playlist-item ${currentTrackIndex === index && isPlaylistPlaying ? 'playing' : ''}`}
+                  className={`playlist-item ${currentTrackIndex === index ? (isPlaylistPlaying ? 'playing' : 'paused') : ''}`}
                   onClick={() => togglePlaylistTrack(index)}
                   role="button"
                   tabIndex={0}
-                  title="Nhấn để phát/tạm dừng bài này"
+                  title={currentTrackIndex === index && isPlaylistPlaying ? "Nhấn để tạm dừng" : "Nhấn để phát"}
                 >
-                  <span className="track-title">{track.name}</span>
-                  <span className="track-action">{` - ${currentTrackIndex === index && isPlaylistPlaying ? 'Đang phát (nhấn để tạm dừng)' : 'Nhấn để phát'}`}</span>
+                  <div className="track-number">{index + 1}</div>
+                  <div className="track-info">
+                    <span className="track-title">{track.name}</span>
+                    {currentTrackIndex === index && (
+                      <div className="track-status">
+                        {isPlaylistPlaying ? (
+                          <div className="status-indicator playing-indicator">
+                            <span></span><span></span><span></span>
+                          </div>
+                        ) : (
+                          <div className="status-indicator paused-indicator">Tạm dừng</div>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

@@ -10,8 +10,8 @@ const Login = () => {
   const dispatch = useDispatch();
   const { user } = data;
 
-  const signInHandler = () => {
-    dispatch(signInAPI());
+  const signInHandler = (provider) => {
+    dispatch(signInAPI(provider));
   };
 
   return (
@@ -48,9 +48,13 @@ const Login = () => {
         <h1>Welcome to the auto genrate lofi music made by Thanh Tri -Đev </h1>
         <h1>Login to explore the feature</h1>
         <div className='form'>
-          <div className='icon' onClick={signInHandler}>
+          <div className='icon' onClick={() => signInHandler('google')}>
             <img src='/assets/icons/google.svg' alt='' />
             Sign in with Google
+          </div>
+          <div className='icon github-icon' onClick={() => signInHandler('github')}>
+            <i className='fab fa-github'></i>
+            Sign in with GitHub
           </div>
         </div>
       </section>
