@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" width="300" height="200">
+  <rect width="300" height="200" fill="#2c3e50"/>
+  <rect x="50" y="50" width="200" height="100" fill="#34495e"/>
+  <rect x="100" y="80" width="100" height="70" fill="#2c3e50"/>
+  <circle cx="250" cy="30" r="15" fill="#f1c40f"/>
+  <circle cx="220" cy="40" r="2" fill="#fff"/>
+  <circle cx="180" cy="30" r="2" fill="#fff"/>
+  <circle cx="150" cy="20" r="2" fill="#fff"/>
+  <circle cx="100" cy="40" r="2" fill="#fff"/>
+  <circle cx="70" cy="25" r="2" fill="#fff"/>
+  <rect x="120" y="100" width="60" height="40" fill="#f39c12" opacity="0.3"/>
+  <text x="150" y="180" font-family="Arial" font-size="16" text-anchor="middle" fill="#ecf0f1">Autumn Bedroom Night</text>
+</svg>

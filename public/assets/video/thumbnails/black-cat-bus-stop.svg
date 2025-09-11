@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" width="300" height="200">
+  <rect width="300" height="200" fill="#87CEEB"/>
+  <rect x="0" y="120" width="300" height="80" fill="#808080"/>
+  <rect x="50" y="70" width="80" height="50" fill="#A9A9A9"/>
+  <rect x="60" y="80" width="20" height="30" fill="#696969"/>
+  <rect x="90" y="80" width="20" height="30" fill="#696969"/>
+  <rect x="180" y="90" width="40" height="30" fill="#A9A9A9"/>
+  <rect x="185" y="95" width="30" height="20" fill="#696969"/>
+  <path d="M220,120 L240,90 L260,120 Z" fill="#A9A9A9"/>
+  <circle cx="150" cy="40" r="15" fill="#FFD700"/>
+  <path d="M150,140 C150,130 160,130 160,140 L160,150 L150,150 Z" fill="#000"/>
+  <ellipse cx="155" cy="138" rx="2" ry="1" fill="#FFD700"/>
+  <ellipse cx="150" cy="138" rx="2" ry="1" fill="#FFD700"/>
+  <rect x="140" y="150" width="30" height="5" fill="#000"/>
+  <text x="150" y="180" font-family="Arial" font-size="16" text-anchor="middle" fill="#333">Black Cat Bus Stop</text>
+</svg>

@@ -47,26 +47,126 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
   ];
 
   const videoOptions = [
-    { name: 'Autumn Bedroom', path: '/assets/video/autumn-bedroom-moewalls-com.mp4', category: ['day', 'seasons'] },
-    { name: 'Autumn Bedroom Night', path: '/assets/video/autumn-bedroom-nightmoewalls-com.mp4', category: ['night', 'seasons'] },
-    { name: 'Black Cat Bus Stop', path: '/assets/video/black-cat-bus-stop-at-dusk-moewalls-com.mp4', category: ['day', 'city'] },
-    { name: 'Black Cat Bus Stop Night', path: '/assets/video/black-cat-bus-stop-at-dusk-night-moewalls-com.mp4', category: ['night', 'city'] },
-    { name: 'Evening Sky Garden', path: '/assets/video/evening-sky-the-garden-of-words-moewalls-com.mp4', category: ['day', 'nature'] },
-    { name: 'Evening Sky Garden Night', path: '/assets/video/evening-sky-the-garden-of-words-night-moewalls-com.mp4', category: ['night', 'nature'] },
-    { name: 'Lofi House Cloudy', path: '/assets/video/lofi-house-cloudy-day-1-moewalls-com.mp4', category: ['day', 'city'] },
-    { name: 'Lofi House Cloudy Rain', path: '/assets/video/lofi-house-cloudy-day-1-rain-moewalls-com.mp4', category: ['day', 'city', 'nature'] },
-    { name: 'Lofi Pink Town', path: '/assets/video/lofi-pink-town-moewalls-com.mp4', category: ['day', 'city'] },
-    { name: 'Lofi Van Life', path: '/assets/video/lofi-van-life-moewalls-com.mp4', category: ['day', 'nature'] },
-    { name: 'Peaceful Beach', path: '/assets/video/peaceful-beach-moewalls-com.mp4', category: ['day', 'nature'] },
-    { name: 'Peaceful Ruins', path: '/assets/video/peaceful-ruins-moewalls-com.mp4', category: ['day', 'nature'] },
-    { name: 'Peaceful Ruins Rain', path: '/assets/video/peaceful-ruins-rain-moewalls-com.mp4', category: ['day', 'nature'] },
-    { name: 'Seaside Balcony', path: '/assets/video/serene-twilight-from-a-seaside-balcony-moewalls-com.mp4', category: ['day', 'nature'] },
-    { name: 'Seaside Balcony Night', path: '/assets/video/serene-twilight-from-a-seaside-balcony-nightmoewalls-com.mp4', category: ['night', 'nature'] },
-    { name: 'Sunflowers Summer', path: '/assets/video/sunflowers-summer-days-moewalls-com.mp4', category: ['day', 'nature', 'seasons'] },
-    { name: 'Japanese House Sunny', path: '/assets/video/traditional-japanese-house-sunny-day-moewalls-com.mp4', category: ['day', 'city'] },
-    { name: 'Truck Camp', path: '/assets/video/truckCampBackground.mp4', category: ['day', 'nature'] },
-    { name: 'Winter Christmas Aurora', path: '/assets/video/winter-christmas-house-aurora-moewalls-com.mp4', category: ['night', 'seasons'] },
-    { name: 'Winter Night Train', path: '/assets/video/winter-night-train-moewalls-com.mp4', category: ['night', 'city', 'seasons'] },
+    { 
+      name: 'Autumn Bedroom', 
+      path: '/assets/video/autumn-bedroom-moewalls-com.mp4', 
+      thumbnail: '/assets/video/thumbnails/user_images/autumn-bedroom-moewalls-com.png',
+      category: ['day', 'seasons'] 
+    },
+    { 
+      name: 'Autumn Bedroom Night', 
+      path: '/assets/video/autumn-bedroom-nightmoewalls-com.mp4', 
+      thumbnail: '/assets/video/thumbnails/user_images/autumn-bedroom-nightmoewalls-com.png',
+      category: ['night', 'seasons'] 
+    },
+    { 
+      name: 'Black Cat Bus Stop', 
+      path: '/assets/video/black-cat-bus-stop-at-dusk-moewalls-com.mp4', 
+      thumbnail: '/assets/video/thumbnails/user_images/black-cat-bus-stop-at-dusk-moewalls-com.png',
+      category: ['day', 'city'] 
+    },
+    { 
+      name: 'Black Cat Bus Stop Night', 
+      path: '/assets/video/black-cat-bus-stop-at-dusk-night-moewalls-com.mp4', 
+      thumbnail: '/assets/video/thumbnails/user_images/black-cat-bus-stop-at-dusk-night-moewalls-com.png',
+      category: ['night', 'city'] 
+    },
+    { 
+      name: 'Evening Sky Garden', 
+      path: '/assets/video/evening-sky-the-garden-of-words-moewalls-com.mp4', 
+      thumbnail: '/assets/video/thumbnails/user_images/evening-sky-the-garden-of-words-moewalls-com.png',
+      category: ['day', 'nature'] 
+    },
+    { 
+      name: 'Evening Sky Garden Night', 
+      path: '/assets/video/evening-sky-the-garden-of-words-night-moewalls-com.mp4', 
+      thumbnail: '/assets/video/thumbnails/user_images/evening-sky-the-garden-of-words-night-moewalls-com.png',
+      category: ['night', 'nature'] 
+    },
+    { 
+      name: 'Lofi House Cloudy', 
+      path: '/assets/video/lofi-house-cloudy-day-1-moewalls-com.mp4', 
+      thumbnail: '/assets/video/thumbnails/user_images/lofi-house-cloudy-day-1-clean-moewalls-com.png',
+      category: ['day', 'city'] 
+    },
+    { 
+      name: 'Lofi House Cloudy Rain', 
+      path: '/assets/video/lofi-house-cloudy-day-1-rain-moewalls-com.mp4', 
+      thumbnail: '/assets/video/thumbnails/user_images/lofi-house-cloudy-day-1-rain-moewalls-com.png',
+      category: ['day', 'city', 'nature'] 
+    },
+    { 
+      name: 'Lofi Pink Town', 
+      path: '/assets/video/lofi-pink-town-moewalls-com.mp4', 
+      thumbnail: '/assets/video/thumbnails/user_images/lofi-pink-town-moewalls-com.png',
+      category: ['day', 'city'] 
+    },
+    { 
+      name: 'Lofi Van Life', 
+      path: '/assets/video/lofi-van-life-moewalls-com.mp4', 
+      thumbnail: '/assets/video/thumbnails/user_images/lofi-van-life-moewalls-com.png',
+      category: ['day', 'nature'] 
+    },
+    { 
+      name: 'Peaceful Beach', 
+      path: '/assets/video/peaceful-beach-moewalls-com.mp4', 
+      thumbnail: '/assets/video/thumbnails/user_images/peaceful-beach-moewalls-com.png',
+      category: ['day', 'nature'] 
+    },
+    { 
+      name: 'Peaceful Ruins', 
+      path: '/assets/video/peaceful-ruins-moewalls-com.mp4', 
+      thumbnail: '/assets/video/thumbnails/user_images/peaceful-ruins-moewalls-com.png',
+      category: ['day', 'nature'] 
+    },
+    { 
+      name: 'Peaceful Ruins Rain', 
+      path: '/assets/video/peaceful-ruins-rain-moewalls-com.mp4', 
+      thumbnail: '/assets/video/thumbnails/user_images/peaceful-ruins-rain-moewalls-com.png',
+      category: ['day', 'nature'] 
+    },
+    { 
+      name: 'Seaside Balcony', 
+      path: '/assets/video/serene-twilight-from-a-seaside-balcony-moewalls-com.mp4', 
+      thumbnail: '/assets/video/thumbnails/user_images/serene-twilight-from-a-seaside-balcony-moewalls-com.png',
+      category: ['day', 'nature'] 
+    },
+    { 
+      name: 'Seaside Balcony Night', 
+      path: '/assets/video/serene-twilight-from-a-seaside-balcony-nightmoewalls-com.mp4', 
+      thumbnail: '/assets/video/thumbnails/user_images/serene-twilight-from-a-seaside-balcony-nightmoewalls-com.png',
+      category: ['night', 'nature'] 
+    },
+    { 
+      name: 'Sunflowers Summer', 
+      path: '/assets/video/sunflowers-summer-days-moewalls-com.mp4', 
+      thumbnail: '/assets/video/thumbnails/user_images/sunflowers-summer-days-moewalls-com.png',
+      category: ['day', 'nature', 'seasons'] 
+    },
+    { 
+      name: 'Japanese House Sunny', 
+      path: '/assets/video/traditional-japanese-house-sunny-day-moewalls-com.mp4', 
+      thumbnail: '/assets/video/thumbnails/user_images/traditional-japanese-house-sunny-day-moewalls-com.png',
+      category: ['day', 'city'] 
+    },
+    { 
+      name: 'Truck Camp', 
+      path: '/assets/video/truckCampBackground.mp4', 
+      thumbnail: '/assets/video/thumbnails/user_images/truckCampBackground.png',
+      category: ['day', 'nature'] 
+    },
+    { 
+      name: 'Winter Christmas Aurora', 
+      path: '/assets/video/winter-christmas-house-aurora-moewalls-com.mp4', 
+      thumbnail: '/assets/video/thumbnails/user_images/winter-christmas-house-aurora-moewalls-com.png',
+      category: ['night', 'seasons'] 
+    },
+    { 
+      name: 'Winter Night Train', 
+      path: '/assets/video/winter-night-train-moewalls-com.mp4', 
+      thumbnail: '/assets/video/thumbnails/user_images/winter-night-train-moewalls-com.png',
+      category: ['night', 'city', 'seasons'] 
+    },
   ];
 
   // Đóng dropdown khi click ra ngoài
@@ -404,7 +504,7 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
         </div>
       </div>
       
-      {isVideoOpen && (
+     {isVideoOpen && (
         <div className="sidebar-panel video-panel">
           <div className="panel-header">
             <h3>Chọn video</h3>
@@ -423,7 +523,10 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
                         className={`video-option ${selectedVideo === video.path ? 'selected' : ''}`}
                         onClick={() => handleVideoSelect(video.path)}
                       >
-                        {video.name}
+                        <div className="video-thumbnail">
+                          <img src={video.thumbnail} alt={video.name} />
+                        </div>
+                        <div className="video-name">{video.name}</div>
                       </div>
                     ))}
                 </div>
@@ -432,7 +535,7 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
           </div>
         </div>
         
-      )}
+      )} 
       
       {isBookOpen && (
         <div className="sidebar-panel book-panel">
