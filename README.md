@@ -2,8 +2,8 @@
 
 This project is a clone of Lofi.co and adding some function lick todolist, counting as well as remove some part
 ## Image:
-![Image](https://raw.githubusercontent.com/ThanhTri14032006/lofi-chill-study/main/public/assets/icon/lofi-logo.gif)
-![Image](https://raw.githubusercontent.com/ThanhTri14032006/lofi-chill-study/main/public/assets/icon/avata.png)
+![Image](https://raw.githubusercontent.com/ThanhTri14032006/lofi-chill-study/main/public/assets/icons/lofi-logo.gif)
+![Image](https://raw.githubusercontent.com/ThanhTri14032006/lofi-chill-study/main/public/assets/icons/avata.png)
 ##
 ![Image](https://raw.githubusercontent.com/ThanhTri14032006/lofi-chill-study/main/public/assets/video/thumbnails/user_images/serene-twilight-from-a-seaside-balcony-nightmoewalls-com)
 ##

@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import ReactPlayer from 'react-player';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import ReactPlayer from 'react-player/lazy';
 import './VideoSelector.scss';
 import DocumentPanel from '../DocumentPanel/DocumentPanel';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,6 +30,27 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
   const [isCompassOpen, setIsCompassOpen] = useState(false);
   const [googleMusicLink, setGoogleMusicLink] = useState('');
   const [isPlayingGoogleMusic, setIsPlayingGoogleMusic] = useState(false);
+  
+  // Hàm xử lý thay đổi media để tránh lỗi AbortError
+  const handleMediaChange = useCallback((url) => {
+    // Đợi một khoảng thời gian để đảm bảo player đã dừng hoàn toàn
+    setTimeout(() => {
+      // Xóa URL hiện tại
+      setGoogleMusicLink('');
+      
+      // Đợi thêm thời gian trước khi đặt URL mới
+      setTimeout(() => {
+        // Đặt URL mới
+        setGoogleMusicLink(url);
+        
+        // Đợi thêm thời gian trước khi bắt đầu phát
+        setTimeout(() => {
+          setIsPlayingGoogleMusic(true);
+        }, 500);
+      }, 500);
+    }, 500);
+  }, []);
+  
   const sidebarRef = useRef(null);
   const currentAudioRef = useRef(null);
   const [activeAudioFile, setActiveAudioFile] = useState(null);
@@ -48,7 +69,7 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
 
   const videoOptions = [
     { 
-      name: 'Autumn Bedroom', 
+      name: ' Autumn Bedroom', 
       path: '/assets/video/autumn-bedroom-moewalls-com.mp4', 
       thumbnail: '/assets/video/thumbnails/user_images/autumn-bedroom-moewalls-com.png',
       category: ['day', 'seasons'] 
@@ -162,7 +183,7 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
       category: ['night', 'seasons'] 
     },
     { 
-      name: 'Winter Night Train', 
+      name: ' Winter Night Train', 
       path: '/assets/video/winter-night-train-moewalls-com.mp4', 
       thumbnail: '/assets/video/thumbnails/user_images/winter-night-train-moewalls-com.png',
       category: ['night', 'city', 'seasons'] 
@@ -173,6 +194,7 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        // Đóng panel nhưng không tắt nhạc đang phát từ URL
         closeAllSections();
       }
     };
@@ -183,6 +205,7 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
     };
   }, []);
   
+  // Đóng tất cả các panel mà không ảnh hưởng đến trạng thái phát nhạc
   const closeAllSections = () => {
     setIsVideoOpen(false);
     setIsBookOpen(false);
@@ -190,6 +213,7 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
     setIsSettingsOpen(false);
     setIsCompassOpen(false);
     setActiveSection('');
+    // Không tắt nhạc khi đóng panel
   };
   
   const toggleSection = (section) => {
@@ -507,7 +531,7 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
      {isVideoOpen && (
         <div className="sidebar-panel video-panel">
           <div className="panel-header">
-            <h3>Chọn video</h3>
+            <h3>Thêm Giao Diện Mới</h3>
             <button className="reset-button" onClick={resetVideo}>×</button>
           </div>
           <div className="video-categories">
@@ -705,25 +729,146 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
       {isCompassOpen && (
         <div className="sidebar-panel compass-panel">
           <div className="panel-header">
-            <h3>Nhạc Tuỳ Chọn link google</h3>
-            <button className="close-button" onClick={() => closeAllSections()}>×</button>
+            <h3>Nhạc Tuỳ Chọn</h3>
+            <button className="close-button" onClick={() => {
+              // Đóng panel nhưng không tắt nhạc đang phát từ URL
+              closeAllSections();
+            }}>×</button>
           </div>
           <div className="panel-content">
             <div className="google-music-form">
               {!isPlayingGoogleMusic ? (
                 <>
-                  <p className="form-description">Dán link nhạc từ Google Drive hoặc Google Music để phát:</p>
+                  <p className="form-description">Dán bất kỳ link nhạc nào để phát (YouTube, Google Drive, SoundCloud, MP3, v.v.):</p>
                   <form className="music-input-form" onSubmit={(e) => {
                     e.preventDefault();
                     if (googleMusicLink) {
-                      setIsPlayingGoogleMusic(true);
-                      // Tạm dừng nhạc mặc định khi phát nhạc từ Google
-                      dispatch({ type: 'SET_MUSIC_PLAYING', isPlaying: false });
+                      try {
+                        // Đơn giản hóa xử lý URL
+                        let processedLink = googleMusicLink.trim();
+                        
+                        // Xử lý URL Google Drive
+                        if (processedLink.includes('drive.google.com/file/d/')) {
+                          const fileIdMatch = processedLink.match(/\/file\/d\/([^\/]+)/);
+                          if (fileIdMatch && fileIdMatch[1]) {
+                            const fileId = fileIdMatch[1];
+                            processedLink = `https://drive.google.com/uc?export=download&id=${fileId}`;
+                            console.log('Đã chuyển đổi URL Google Drive:', processedLink);
+                          }
+                        }
+                        // Xử lý URL Google Drive dạng open
+                        else if (processedLink.includes('drive.google.com/open?id=')) {
+                          const fileId = processedLink.split('open?id=')[1]?.split(/[&]/)[0];
+                          if (fileId) {
+                            processedLink = `https://drive.google.com/uc?export=download&id=${fileId}`;
+                            console.log('Đã chuyển đổi URL Google Drive dạng open:', processedLink);
+                          }
+                        }
+                        // Xử lý URL YouTube Music
+                        else if (processedLink.includes('music.youtube.com')) {
+                          try {
+                            const urlObj = new URL(processedLink);
+                            const videoId = urlObj.searchParams.get('v');
+                            const listId = urlObj.searchParams.get('list');
+                            
+                            if (videoId) {
+                              // Chuyển đổi từ music.youtube.com sang www.youtube.com
+                              const listParam = listId ? `&list=${listId}` : '';
+                              processedLink = `https://www.youtube.com/watch?v=${videoId}${listParam}`;
+                              console.log('Đã chuyển đổi URL YouTube Music:', processedLink);
+                            }
+                          } catch (error) {
+                            console.error('Lỗi xử lý URL YouTube Music:', error);
+                          }
+                        }
+                        // Xử lý URL YouTube rút gọn (youtu.be)
+                        else if (processedLink.includes('youtu.be/')) {
+                          const videoId = processedLink.split('youtu.be/')[1]?.split(/[?&]/)[0];
+                          if (videoId) {
+                            // Giữ lại các tham số playlist nếu có
+                            const queryParams = processedLink.split('?')[1] || '';
+                            const params = new URLSearchParams(queryParams);
+                            const listParam = params.get('list') ? `&list=${params.get('list')}` : '';
+                            
+                            processedLink = `https://www.youtube.com/watch?v=${videoId}${listParam}`;
+                            console.log('Đã chuyển đổi URL YouTube rút gọn:', processedLink);
+                          }
+                        }
+                        // Xử lý URL YouTube playlist
+                        else if (processedLink.includes('youtube.com/playlist')) {
+                          const urlParams = new URLSearchParams(processedLink.split('?')[1] || '');
+                          const listId = urlParams.get('list');
+                          if (listId) {
+                            processedLink = `https://www.youtube.com/watch?v=placeholder&list=${listId}`;
+                            console.log('Đã chuyển đổi URL YouTube playlist:', processedLink);
+                          }
+                        }
+                        // Xử lý URL YouTube embed
+                        else if (processedLink.includes('youtube.com/embed/')) {
+                          const videoId = processedLink.split('embed/')[1]?.split(/[?&]/)[0];
+                          if (videoId) {
+                            processedLink = `https://www.youtube.com/watch?v=${videoId}`;
+                            console.log('Đã chuyển đổi URL YouTube embed:', processedLink);
+                          }
+                        }
+                        // Xử lý URL YouTube chuẩn với playlist
+                        else if (processedLink.includes('youtube.com/watch') && processedLink.includes('list=')) {
+                          // Giữ nguyên URL nhưng đảm bảo định dạng đúng
+                          const urlObj = new URL(processedLink);
+                          const videoId = urlObj.searchParams.get('v');
+                          const listId = urlObj.searchParams.get('list');
+                          
+                          if (videoId && listId) {
+                            // Đảm bảo URL có cả video ID và list ID
+                            processedLink = `https://www.youtube.com/watch?v=${videoId}&list=${listId}`;
+                            console.log('Đã xử lý URL YouTube với playlist:', processedLink);
+                          }
+                        }
+                        // Xử lý URL Spotify
+                        else if (processedLink.includes('spotify.com')) {
+                          console.log('Đã phát hiện URL Spotify:', processedLink);
+                        }
+                        // Xử lý URL SoundCloud
+                        else if (processedLink.includes('soundcloud.com')) {
+                          console.log('Đã phát hiện URL SoundCloud:', processedLink);
+                        }
+                        // Xử lý URL trực tiếp đến file âm thanh
+                        else if (/\.(mp3|wav|ogg|flac|m4a)$/i.test(processedLink)) {
+                          console.log('Đã phát hiện URL file âm thanh trực tiếp:', processedLink);
+                        }
+                        // Xử lý URL từ các nền tảng phổ biến khác
+                        else if (processedLink.includes('dailymotion.com')) {
+                          console.log('Đã phát hiện URL Dailymotion:', processedLink);
+                        }
+                        else if (processedLink.includes('vimeo.com')) {
+                          console.log('Đã phát hiện URL Vimeo:', processedLink);
+                        }
+                        else if (processedLink.includes('twitch.tv')) {
+                          console.log('Đã phát hiện URL Twitch:', processedLink);
+                        }
+                        else if (processedLink.includes('mixcloud.com')) {
+                          console.log('Đã phát hiện URL Mixcloud:', processedLink);
+                        }
+                        else if (processedLink.includes('bandcamp.com')) {
+                          console.log('Đã phát hiện URL Bandcamp:', processedLink);
+                        }
+                        
+                        console.log('URL cuối cùng sẽ phát:', processedLink);
+                        
+                        // Tạm dừng nhạc mặc định trước khi phát nhạc từ URL
+                        dispatch({ type: 'SET_MUSIC_PLAYING', isPlaying: false });
+                        
+                        // Sử dụng hàm xử lý để tránh lỗi AbortError
+                        handleMediaChange(processedLink);
+                      } catch (error) {
+                        console.error('Lỗi xử lý URL:', error);
+                        alert('Có lỗi xảy ra khi xử lý URL. Vui lòng thử lại với URL khác.');
+                      }
                     }
                   }}>
                     <input 
                       type="text" 
-                      placeholder="Nhập link nhạc từ Google..." 
+                      placeholder="Nhập bất kỳ link nhạc nào..." 
                       className="google-music-input"
                       value={googleMusicLink}
                       onChange={(e) => setGoogleMusicLink(e.target.value)}
@@ -731,23 +876,94 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
                     <button type="submit" className="submit-button">Phát nhạc</button>
                   </form>
                   <div className="music-instructions">
-                    <h4>Hướng dẫn:</h4>
+                    <h4>Hướng dẫn đơn giản:</h4>
                     <ul>
-                      <li>Dán link nhạc từ Google Drive hoặc Google Music</li>
+                      <li>Dán bất kỳ link nhạc nào vào ô trên</li>
                       <li>Nhấn "Phát nhạc" để bắt đầu</li>
                       <li>Nhạc sẽ tự động quay về mặc định sau khi kết thúc</li>
                     </ul>
+                    <div className="example-links">
+                      <h5>Ví dụ URL hỗ trợ:</h5>
+                      <p><small>YouTube: https://www.youtube.com/watch?v=abc123</small></p>
+                      <p><small>YouTube rút gọn: https://youtu.be/abc123</small></p>
+                      <p><small>Google Drive: https://drive.google.com/file/d/abc123xyz/view</small></p>
+                      <p><small>SoundCloud: https://soundcloud.com/artist/track-name</small></p>
+                      <p><small>Spotify: https://open.spotify.com/track/abc123</small></p>
+                      <p><small>Link trực tiếp: https://example.com/music.mp3</small></p>
+                    </div>
+                    <div className="note-box">
+                      <p><strong>Lưu ý:</strong> Hệ thống hỗ trợ hầu hết các định dạng nhạc phổ biến. Nếu link không hoạt động, hãy thử định dạng khác.</p>
+                    </div>
                   </div>
                 </>
               ) : (
                 <div className="google-music-player">
-                  <h4>Đang phát nhạc từ Google</h4>
+                  <h4>Đang phát nhạc từ URL</h4>
                   <ReactPlayer
+                    key={googleMusicLink} // Thêm key để buộc React tạo lại component khi URL thay đổi
                     url={googleMusicLink}
                     width="100%"
                     height="80px"
                     controls={true}
                     playing={true}
+                    volume={0.8}
+                    playsinline={true}
+                    fallback={<div>Đang tải trình phát...</div>}
+                    config={{
+                      file: {
+                        forceAudio: true,
+                        attributes: {
+                          crossOrigin: "anonymous"
+                        }
+                      },
+                      youtube: {
+                        playerVars: { 
+                          autoplay: 1,
+                          controls: 1,
+                          modestbranding: 1,
+                          origin: window.location.origin,
+                          playsinline: 1
+                        }
+                      },
+                      soundcloud: {
+                        options: {
+                          auto_play: true,
+                          show_artwork: false,
+                          single_active: true
+                        }
+                      },
+                      facebook: {
+                        appId: '12345'
+                      }
+                    }}
+                    onReady={() => {
+                      console.log('Player sẵn sàng phát nhạc');
+                      // Đảm bảo nhạc mặc định đã tắt
+                      dispatch({ type: 'SET_MUSIC_PLAYING', isPlaying: false });
+                    }}
+                    onStart={() => {
+                      console.log('Bắt đầu phát nhạc');
+                      // Đảm bảo nhạc mặc định đã tắt
+                      dispatch({ type: 'SET_MUSIC_PLAYING', isPlaying: false });
+                    }}
+                    onBuffer={() => console.log('Đang buffer...')}
+                    onBufferEnd={() => console.log('Buffer hoàn tất')}
+                    onError={(e) => {
+                      console.error('Lỗi phát nhạc:', e);
+                      
+                      // Xử lý đặc biệt cho lỗi AbortError
+                      if (e && e.message && e.message.includes('AbortError')) {
+                        console.log('Phát hiện lỗi AbortError, thử lại...');
+                        // Thử lại với URL hiện tại
+                        handleMediaChange(googleMusicLink);
+                        return;
+                      }
+                      
+                      // Xử lý các lỗi khác
+                      alert('Không thể phát nhạc từ URL này. Vui lòng kiểm tra lại URL hoặc thử URL khác.');
+                      setIsPlayingGoogleMusic(false);
+                      dispatch({ type: 'SET_MUSIC_PLAYING', isPlaying: true });
+                    }}
                     onEnded={() => {
                       setIsPlayingGoogleMusic(false);
                       // Tiếp tục phát nhạc mặc định khi nhạc từ Google kết thúc
@@ -757,6 +973,7 @@ const VideoSelector = ({ setUseCustomVideo, setSelectedVideoPath }) => {
                   <button 
                     className="stop-button"
                     onClick={() => {
+                      // Chỉ khi bấm nút dừng mới tắt nhạc và phát nhạc mặc định
                       setIsPlayingGoogleMusic(false);
                       // Tiếp tục phát nhạc mặc định khi dừng nhạc từ Google
                       dispatch({ type: 'SET_MUSIC_PLAYING', isPlaying: true });

@@ -291,6 +291,10 @@
               outline: none;
               border-color: #f3a952;
             }
+            
+            &::placeholder {
+              color: rgba(255, 255, 255, 0.5);
+            }
           }
           
           .submit-button {
@@ -312,6 +316,9 @@
         
         .music-instructions {
           margin-top: 20px;
+          background-color: rgba(20, 20, 29, 0.5);
+          border-radius: 5px;
+          padding: 10px;
           
           h4 {
             color: #f3a952;
@@ -330,6 +337,54 @@
               color: white;
               font-size: 13px;
               margin-bottom: 5px;
+              
+              code {
+                background-color: rgba(0, 0, 0, 0.3);
+                padding: 2px 4px;
+                border-radius: 3px;
+                font-size: 11px;
+                color: #f3a952;
+              }
+            }
+          }
+          
+          .example-links {
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px dashed rgba(243, 169, 82, 0.3);
+            
+            h5 {
+              color: #f3a952;
+              font-size: 13px;
+              margin: 0 0 5px 0;
+            }
+            
+            p {
+              margin: 0 0 3px 0;
+              
+              small {
+                color: rgba(255, 255, 255, 0.7);
+                font-size: 11px;
+                word-break: break-all;
+              }
+            }
+          }
+          
+          .note-box {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: rgba(255, 193, 7, 0.1);
+            border-left: 3px solid #ffc107;
+            
+            p {
+              margin: 0;
+              font-size: 13px;
+              color: #e0e0e0;
+            }
+            
+            strong {
+              color: #ffc107;
             }
           }
         }
