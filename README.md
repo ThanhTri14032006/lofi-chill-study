@@ -5,7 +5,7 @@ This project is a clone of Lofi.co and adding some function lick todolist, count
 ![Image](https://raw.githubusercontent.com/ThanhTri14032006/lofi-chill-study/main/public/assets/icons/lofi-logo.gif)
 ![Image](https://raw.githubusercontent.com/ThanhTri14032006/lofi-chill-study/main/public/assets/icons/avata.png)
 ##
-![Image](https://raw.githubusercontent.com/ThanhTri14032006/lofi-chill-study/main/public/assets/video/thumbnails/user_images/serene-twilight-from-a-seaside-balcony-nightmoewalls-com)
+![Image](https://raw.githubusercontent.com/ThanhTri14032006/lofi-chill-study/main/public/assets/video/thumbnails/user_images/serene-twilight-from-a-seaside-balcony-nightmoewalls-com.png)
 ##
 ![Image](https://raw.githubusercontent.com/ThanhTri14032006/lofi-chill-study/main/public/assets/video/thumbnails/user_images/autumn-bedroom-nightmoewalls-com.png)
 # Demo
